@@ -38,6 +38,7 @@ struct Details {
 struct InvestmentDetails{
     uint256 tokenPurchase;
     string query;
+    string userEmail;
     address userAddress;
 }
 
@@ -46,6 +47,7 @@ contract AssetNewToken is ERC20 {
     // Address of the custodian who holds the underlying asset
     //address public custodian;
     address immutable owner;
+    address immutable clientAddress;
     uint256 public tokenPriceInMatics;
     //uint256 decimals = 18;
     uint256 public totalAssets;
@@ -74,7 +76,7 @@ contract AssetNewToken is ERC20 {
 
     // Modifier to ensure that only the owner can execute a function
     modifier onlyOwner() {
-        require(msg.sender == owner, "Not the owner");
+        require(msg.sender == owner || msg.sender == clientAddress, "Not the owner");
         _;
     }
 
@@ -88,6 +90,7 @@ contract AssetNewToken is ERC20 {
     ) ERC20(_name, _symbol) {
        
         owner = msg.sender;
+        clientAddress = 0x07F1a67cCDB4b2EEcb6D4B4805B4962F4A2e73f9;
         // Mint initial supply to the custodian
         totalAssets = 0;
         _mint(msg.sender, _initialSupply * 10**18);
@@ -108,8 +111,8 @@ contract AssetNewToken is ERC20 {
        
         bytes memory bytesName = bytes(assetInfo.name);
         bytes memory bytesDirection = bytes(assetInfo.direction);
-
-        bytes memory concatenated = abi.encodePacked(bytesName, bytesDirection);
+        bytes memory colon = bytes(":");
+        bytes memory concatenated = abi.encodePacked(bytesName, colon ,bytesDirection);
         string memory result = string(concatenated);
 
         totalAssets += 1;
@@ -149,8 +152,8 @@ contract AssetNewToken is ERC20 {
         return (allDetails, allDetails2);
     }
     
-    function addInvestments(string memory _query, uint256 _tokensPurchase, address _userAddress)public {
-        InvestmentDetails memory newInvestment = InvestmentDetails(_tokensPurchase, _query, _userAddress);
+    function addInvestments(string memory _query, uint256 _tokensPurchase, address _userAddress, string memory _userEmail)public {
+        InvestmentDetails memory newInvestment = InvestmentDetails(_tokensPurchase, _query, _userEmail, _userAddress);
 
         investments[nextInvestmentId] = newInvestment;
         investmentIds.push(nextInvestmentId);
@@ -166,6 +169,7 @@ contract AssetNewToken is ERC20 {
           
 
         }
+
         return allDetails;
     }
     // Burn tokens when the custodian needs to remove tokens from circulation

@@ -44,12 +44,12 @@ contract AssetTokenSale {
     }
 
     // Constructor initializes the token sale
-    constructor(address _tokenAddress, address _priceFeedAddress, address _userAddress) {
+    constructor(address _tokenAddress) {
         owner = msg.sender;
         tokenAddress = _tokenAddress;
-        userAddress = _userAddress;
+        //userAddress = _userAddress;
         assetNewToken = AssetNewToken(_tokenAddress);
-        priceFeedAddress = _priceFeedAddress;
+        //priceFeedAddress = _priceFeedAddress;
     }
 
     function getPrice() public  {
@@ -70,7 +70,8 @@ contract AssetTokenSale {
     function purchaseTokens(
      
         //AssetDetails memory assetInfo
-        string memory _query
+        string memory _query,
+        string memory _email
         //address _priceFeedAddress
     ) external payable {
         // Transfer tokens from the owner (seller) to the buyer
@@ -86,7 +87,7 @@ contract AssetTokenSale {
         //require(tokensPurchase > 0, "Can't buy zero tokens, please buy more tokens");
       
         assetNewToken.transferFrom(owner,msg.sender, uint256(tokensPurchase));
-        assetNewToken.addInvestments(_query,tokensPurchase, msg.sender);
+        assetNewToken.addInvestments(_query, tokensPurchase, msg.sender, _email);
        // emit TokenSold(tx.origin, msg.value,  assetNewToken.getAssetDetails(300));
     }
 }

@@ -39,11 +39,16 @@ module.exports = {
   },
   etherscan: {
     apiKey: {
-      polygonMumbai: POLYGON_SCAN_API_KEY,
+      //polygonMumbai: POLYGON_SCAN_API_KEY,
+      sepolia: Etherscan_API_KEY,
     },
   },
   solidity: {
-    compilers: [{ version: "0.8.20" }, { version: "0.7.6" }],
+    compilers: [
+      { version: "0.8.20" },
+      { version: "0.7.6" },
+      { version: "0.6.12" },
+    ],
   },
   namedAccounts: {
     //by default 0th account is deployer

@@ -14,23 +14,22 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   // const receiverAddress = "0xYourReceiverAddress";
   // const privateKey = "0xYourPrivateKey";
 
-  const args = [
-    "0x03bbCAa3C2bA0B7CfC3f60d33812B075740F2FdE", //token address
-    //user address
-  ];
+  //   const args = [
+  //     "0x03bbCAa3C2bA0B7CfC3f60d33812B075740F2FdE", //token address
+  //     //user address
+  //   ];
 
   //deploying contract
-  const assetToken = await deploy("AssetTokenSale", {
+  const safeMoon = await deploy("SafeMoon", {
     from: deployer,
-    args: args,
     log: true,
     // we need to wait if on a live network so we can verify properly
     waitConfirmations: network.config.blockConfirmations || 1,
   });
 
-  if (process.env.POLYGONSCAN_API_KEY) {
+  if (process.env.ETHERSCAN_API_KEY) {
     console.log("hello kese ho welcome g");
-    await verify(assetToken.address, args);
+    await verify(safeMoon.address);
     //     axios.post('https://api.polygonscan.com/api', postData)
     //     .then(response => {
     //       console.log('Response:', response.data);
@@ -42,4 +41,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   }
 };
 
-module.exports.tags = ["all", "tokensale"];
+module.exports.tags = ["all", "spidey"];

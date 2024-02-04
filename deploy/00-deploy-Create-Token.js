@@ -10,7 +10,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   const chainId = network.config.chainId;
 
-  const args = ["bat coin", "bat", 10000];
+  const args = ["phadda coin", "phadda", 10000];
 
   //deploying contract
   const createToken = await deploy("AssetNewToken", {
